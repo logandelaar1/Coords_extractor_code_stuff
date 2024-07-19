@@ -1,11 +1,10 @@
 import socket
-import re
 import threading
 import datetime
-
-# Function to extract latitude, longitude, and heading from the given dat
+initial_timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+# Function to extract latitude, longitude, and heading from the given data
 def handle_connection(host, port):
-    filename = f"{host}_{port}_all_GAME.txt"
+    filename = f"{host}_{port}_{initial_timestamp}_GAME.txt"
     
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((host, port))
@@ -16,7 +15,8 @@ def handle_connection(host, port):
                 data = s.recv(1024).decode('utf-8')
                 if not data:
                     break
-                f.write(f"{data}\n")
+                timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                f.write(f"{timestamp} - {data}\n")
                 f.flush()
                 print(f"Data saved to {filename}")
 
@@ -28,7 +28,10 @@ def main():
         '192.168.1.91',
         '192.168.1.81',
         '192.168.1.71',
-        '192.168.1.101'
+        '192.168.1.101',
+        '192.168.1.111',
+        '192.168.1.21',
+        '192.168.1.61',
     ]
     
     port = 8003
